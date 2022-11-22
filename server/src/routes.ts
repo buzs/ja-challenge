@@ -8,11 +8,12 @@ export const routes = Router();
 
 // POST /user
 routes.post(
-  "/user",
+  "/users",
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       name: Joi.string().required(),
       username: Joi.string().required(),
+      password: Joi.string().required(),
     }),
   }),
   UserController.create
@@ -47,7 +48,7 @@ routes.get(
 );
 
 // GET /project
-routes.get("/project", ProjectController.index);
+routes.get("/project/:id", ProjectController.index);
 
 // PUT /projects/:id
 routes.put(

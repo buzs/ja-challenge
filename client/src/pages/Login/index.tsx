@@ -8,6 +8,7 @@ import {
 } from "@mantine/core";
 
 import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/Auth";
 
@@ -43,11 +44,18 @@ export default function Login() {
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form
-          onSubmit={form.onSubmit((values) =>
-            signin(values, () => {
+          onSubmit={form.onSubmit(async (values) => {
+            try {
+              await signin(values);
               navigate(from, { replace: true });
-            })
-          )}
+            } catch (error) {
+              console.log(error);
+              showNotification({
+                color: "red",
+                message: error as string,
+              });
+            }
+          })}
         >
           <TextInput
             label="Username"

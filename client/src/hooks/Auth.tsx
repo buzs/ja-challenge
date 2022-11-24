@@ -1,16 +1,18 @@
 import React from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-
-interface AuthContextType {
-  user: Omit<User, "password">;
-  signin: (user: User, callback: VoidFunction) => void;
-  signout: (callback: VoidFunction) => void;
-}
+import api from "../services/api";
 
 type User = {
   username: string;
+  name: string;
   password: string;
 };
+
+interface AuthContextType {
+  user: Omit<User, "password">;
+  signin: (user: Omit<User, "name">) => Promise<void>;
+  signout: (callback: VoidFunction) => void;
+}
 
 let AuthContext = React.createContext<AuthContextType>(null!);
 
@@ -20,18 +22,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return user ? JSON.parse(user) : null;
   });
 
-  let signin = (newUser: User, callback: VoidFunction) => {
-    console.log("signin", newUser);
-    setUser(newUser);
+  let signin = async (newUser: Omit<User, "name">) => {
+    return new Promise<void>(async (resolve, reject) => {
+      await api
+        .post<Omit<User, "password">>("/login", newUser)
+        .then(({ data }) => {
+          if (!data.name && !data.username) {
+            reject("Invalid username or password");
+          }
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        username: newUser.username,
-      })
-    );
+          setUser(data);
 
-    callback();
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              username: newUser.username,
+            })
+          );
+
+          resolve();
+        })
+        .catch((e) => {
+          reject("Invalid username or password");
+        });
+    });
 
     // return fakeAuthProvider.signin(() => {
     //   setUser(newUser);
@@ -41,10 +55,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   let signout = (callback: VoidFunction) => {
     localStorage.clear();
-    // return fakeAuthProvider.signout(() => {
-    //   setUser(null);
-    //   callback();
-    // });
+    setUser(null);
+    callback();
   };
 
   let value = { user, signin, signout };
@@ -55,28 +67,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   return React.useContext(AuthContext);
 }
-
-// export function AuthStatus() {
-//   let auth = useAuth();
-//   let navigate = useNavigate();
-
-//   if (!auth.user) {
-//     return <p>You are not logged in.</p>;
-//   }
-
-//   return (
-//     <p>
-//       Welcome {auth.user}!{" "}
-//       <button
-//         onClick={() => {
-//           auth.signout(() => navigate("/"));
-//         }}
-//       >
-//         Sign out
-//       </button>
-//     </p>
-//   );
-// }
 
 export function RequireAuth({ children }: { children: JSX.Element }) {
   let auth = useAuth();

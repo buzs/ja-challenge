@@ -21,7 +21,7 @@ export const index: Handler = async (req, res) => {
   });
 
   if (project) {
-    const { zip_code, user, userId, ...rest } = project;
+    const { user, userId, ...rest } = project;
 
     try {
       const location = await axios.get<CepLocation>(
@@ -35,7 +35,12 @@ export const index: Handler = async (req, res) => {
         state: location.data.uf,
       });
     } catch (e) {
-      return res.status(500).json({ message: "Error to fetch location" });
+      return res.status(200).json({
+        ...rest,
+        username: user.username,
+        city: "Unknown",
+        state: "Unknown",
+      });
     }
   }
 
@@ -115,6 +120,7 @@ export const done: Handler = async (req, res) => {
 };
 
 export const update: Handler = async (req, res) => {
+  console.log(req.body);
   const project = await prisma.project.findUnique({
     where: {
       id: String(req.params.id),

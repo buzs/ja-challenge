@@ -6,6 +6,23 @@ import * as UserController from "./controllers/UserController";
 
 export const routes = Router();
 
+// User routes
+
+// POST /login
+routes.post(
+  "/login",
+  celebrate({
+    [Segments.BODY]: {
+      username: Joi.string().required(),
+      password: Joi.string().required(),
+    },
+  }),
+  UserController.login
+);
+
+// GET /users
+routes.get("/users", UserController.index);
+
 // POST /user
 routes.post(
   "/users",
@@ -25,7 +42,7 @@ routes.post(
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       title: Joi.string().required(),
-      zip_code: Joi.number().required(),
+      zip_code: Joi.string().required(),
       deadline: Joi.date().required(),
       cost: Joi.number().required(),
     }),
@@ -56,7 +73,7 @@ routes.put(
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       title: Joi.string().required(),
-      zip_code: Joi.number().required(),
+      zip_code: Joi.string().required(),
       deadline: Joi.date().required(),
       cost: Joi.number().required(),
     }),

@@ -5,12 +5,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "concurrently \"yarn:start:*\"",
-    "start:web": "concurrently -n client,server \"yarn:start:client\" \"yarn:start:server\"",
+    "start": "concurrently -n client,server \"yarn:start:client\" \"yarn:start:server\"",
     "start:client": "yarn workspace @ja-challenge/client run start",
     "start:server": "yarn workspace @ja-challenge/server run start",
-    "build": "concurrently \"yarn:build:*\"",
-    "build:web": "concurrently -n client,server \"yarn:build:client\" \"yarn:build:server\"",
+    "build": "concurrently -n client,server \"yarn:build:client\" \"yarn:build:server\"",
     "build:client": "yarn workspace @ja-challenge/client run build",
     "build:server": "yarn workspace @ja-challenge/server run build"
   },

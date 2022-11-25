@@ -46,7 +46,3 @@ yarn start:client
 [expo]: https://github.com/expo/expo
 [yarn]: https://classic.yarnpkg.com
 [yarnworkspaces]: https://classic.yarnpkg.com/en/docs/workspaces/
-
-```
-
-```

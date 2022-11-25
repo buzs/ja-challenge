@@ -120,7 +120,6 @@ export const done: Handler = async (req, res) => {
 };
 
 export const update: Handler = async (req, res) => {
-  console.log(req.body);
   const project = await prisma.project.findUnique({
     where: {
       id: String(req.params.id),

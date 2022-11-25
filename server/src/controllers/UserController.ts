@@ -10,19 +10,22 @@ export const index: Handler = async (req, res) => {
 };
 
 export const create: Handler = async (req, res) => {
-  const user = await prisma.user.create({
-    data: {
-      name: req.body.name,
-      username: req.body.username,
-      password: bcrypt.hashSync(req.body.password, 8),
-    },
-  });
+  try {
+    const user = await prisma.user.create({
+      data: {
+        name: req.body.name,
+        username: req.body.username,
+        password: bcrypt.hashSync(req.body.password, 8),
+      },
+    });
 
-  if (user) {
-    return res.status(201).json(user);
+    if (user) {
+      return res.status(201).json(user);
+    }
+    return res.status(400).json({ message: "User not created" });
+  } catch (error) {
+    return res.status(400).json({ message: "User not created" });
   }
-
-  return res.status(400).json({ message: "User not created" });
 };
 
 export const login: Handler = async (req, res) => {

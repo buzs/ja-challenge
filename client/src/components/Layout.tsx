@@ -36,7 +36,7 @@ export default function Layout() {
         <Header height={45} p="xs">
           <Center inline>
             <Text>
-              Welcome, <b>{user.username}</b>
+              Welcome, <b>{user.name}</b>
             </Text>
           </Center>
         </Header>

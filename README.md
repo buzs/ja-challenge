@@ -23,7 +23,6 @@ yarn
 yarn start
 ```
 
-```
 #### Ou inicie cada um separadamente:
 
 ```
@@ -38,14 +37,16 @@ yarn start:client
 
 ```
 
+[typescript]: https://github.com/microsoft/TypeScript
+[express]: https://github.com/expressjs/express
+[prisma]: https://github.com/prisma/prisma
+[react]: https://github.com/facebook/react
+[mantine]: https://github.com/mantinedev/mantine
+[vite]: https://github.com/vitejs/vite
+[expo]: https://github.com/expo/expo
+[yarn]: https://classic.yarnpkg.com
+[yarnworkspaces]: https://classic.yarnpkg.com/en/docs/workspaces/
 
-[TypeScript]: https://github.com/microsoft/TypeScript
-[Express]: https://github.com/expressjs/express
-[Prisma]: https://github.com/prisma/prisma
-[React]: https://github.com/facebook/react
-[Mantine]: https://github.com/mantinedev/mantine
-[Vite]: https://github.com/vitejs/vite
-[Expo]: https://github.com/expo/expo
-[Yarn]: https://classic.yarnpkg.com
-[YarnWorkspaces]: https://classic.yarnpkg.com/en/docs/workspaces/
+```
+
 ```
